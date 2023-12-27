@@ -1,0 +1,12 @@
+
+Language:        Cpp # Set the primary language this format configuration is targeting
+BasedOnStyle:    Google # Use LLVM as the base style
+
+
+
+ColumnLimit:     150
+
+IndentWidth: 2
+ContinuationIndentWidth: 8
+
+AllowShortFunctionsOnASingleLine: None
