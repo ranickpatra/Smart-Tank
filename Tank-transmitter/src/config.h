@@ -1,3 +1,7 @@
+#pragma once
+
+#define LASER_TEST
+
 #define LASER_PIN 8
 #define WATER_LEVEL_PINS {0, 1, 2}
 #define WATER_LEVEL_PINS_COUNT 3
