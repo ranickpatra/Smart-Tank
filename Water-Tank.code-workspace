@@ -3,6 +3,10 @@
 		{
 			"name": "Tank-transmitter",
 			"path": "Tank-transmitter"
+		},
+		{
+			"name": "Tank-Receiver",
+			"path": "Tank-Receiver"
 		}
 	],
 	"settings": {}
