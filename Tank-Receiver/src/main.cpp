@@ -39,9 +39,6 @@ void setup() {
   startup_sequence();
   delay(1000);
 
-
-
-
   // int _pin_l = 3;
   // pinMode(_pin_l, OUTPUT);
 
@@ -52,13 +49,13 @@ void setup() {
   //   digitalWrite(_pin_l, LOW);
   //   delay(80);
   // }
-  
 }
 
 void loop() {
   current_time = millis();
   water_level = receiver_get_data();
-  // water_level = water_level > MAX_WATER_LEVEL ? MAX_WATER_LEVEL : water_level;
+  // water_level = water_level > MAX_WATER_LEVEL ? MAX_WATER_LEVEL :
+  // water_level;
   last_data_time = receiver_last_receive_time();
 
   // updating last_data_time to prevent unwanted behaviour
@@ -75,7 +72,7 @@ void loop() {
   }
 
   // TODO change time limit based on water level
-  if (current_time - last_data_time > NO_RECEIVE_ERROR_TIME) {
+  if (current_time > (last_data_time + NO_RECEIVE_ERROR_TIME)) {
     // not receiving data
 
     if (error_count < 2) {
@@ -98,7 +95,7 @@ void loop() {
     }
 
     // alarm
-    if (tank_full_time - current_time < TANK_FULL_ALARM_TIME) {
+    if (current_time < (tank_full_time + TANK_FULL_ALARM_TIME)) {
       if (!(loop_counter % 2)) {
         alarm_toggle();
       }

@@ -15,7 +15,7 @@ void receiver_on_receive() {
 
   _receiver_now = _receiver_pulse_in_time;
 
-  if ((_receiver_now - _receiver_last_receive_time) > RECEIVE_TIME_GAP) {
+  if (_receiver_now > (_receiver_last_receive_time + RECEIVE_TIME_GAP)) {
     _receiver_last_receive_time = _receiver_now;
     _receiver_data = 0;
   }
