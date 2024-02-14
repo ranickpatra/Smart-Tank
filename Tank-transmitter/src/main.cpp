@@ -29,7 +29,7 @@ void loop() {
   if (water_level < (WATER_LEVEL_PINS_COUNT - 1)) {
     // water is in the safe zone
     data_send_counter = 0;
-    deep_sleep_time = 16;  // sleep for 2 min
+    deep_sleep_time = 48;  // sleep for 48 sec
 
   } else if (water_level == (WATER_LEVEL_PINS_COUNT - 1)) {
     // tank is about to full
@@ -39,7 +39,7 @@ void loop() {
       data_send_counter = 0;
     }
 
-    deep_sleep_time = 8;  // sleep for 24 sec
+    deep_sleep_time = 24;  // sleep for 24 sec
 
   } else if (water_level == WATER_LEVEL_PINS_COUNT) {
     // tank is full
@@ -52,7 +52,7 @@ void loop() {
         data_send_counter++;
         deep_sleep_time = 8;  // sleep for 8 sec
       } else {
-        deep_sleep_time = 8;  // sleep for 2 min
+        deep_sleep_time = 48;  // sleep for 48 sec
       }
     }
   }
