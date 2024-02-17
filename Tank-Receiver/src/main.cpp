@@ -8,9 +8,10 @@
 
 uint8_t indicator_level_placeholder[] = {0, 1, 3, 7, 15};
 uint8_t water_level, prev_water_level;
-unsigned long last_data_time, current_time, tank_full_time;
+unsigned long last_data_time, current_time, tank_full_time = 0;
 uint8_t error_count = 0;
 uint16_t loop_counter;
+boolean is_tank_full = false;
 
 void startup_sequence() {
   for (uint8_t i = 0; i < 4; i++) {
@@ -59,17 +60,20 @@ void loop() {
   last_data_time = receiver_last_receive_time();
 
   // updating last_data_time to prevent unwanted behaviour
-  if (current_time < last_data_time) {
-    last_data_time = 0;
-  }
+  // if (current_time < last_data_time) {
+  //   last_data_time = 0;
+  // }
 
-  if (water_level != prev_water_level && water_level == MAX_WATER_LEVEL) {
+  is_tank_full = (water_level == MAX_WATER_LEVEL);
+
+  if (water_level != prev_water_level && is_tank_full) {
     tank_full_time = current_time;
-  }
+  }    
+  
   // updating tank_full_time to prevent unwanted behaviour
-  if (current_time < tank_full_time) {
-    tank_full_time = 0;
-  }
+  // if (current_time < tank_full_time) {
+  //   tank_full_time = 0;
+  // }
 
   // TODO change time limit based on water level
   if (current_time > (last_data_time + NO_RECEIVE_ERROR_TIME)) {
@@ -80,23 +84,24 @@ void loop() {
     } else {
       motor_off();
       indicator_error();
-      if (!(loop_counter % 4)) {
-        alarm_toggle();
-      }
+      // if (!(loop_counter % 4)) {
+      //   alarm_toggle();
+      // }
+      alarm_toggle();
     }
   } else {
     // receiving data
 
     // motor
-    if (water_level == MAX_WATER_LEVEL) {
+    if (is_tank_full) {
       motor_off();
     } else {
       motor_continue();
     }
 
     // alarm
-    if (current_time < (tank_full_time + TANK_FULL_ALARM_TIME)) {
-      if (!(loop_counter % 2)) {
+    if ((current_time < (tank_full_time + TANK_FULL_ALARM_TIME)) && is_tank_full) {
+      if (!(loop_counter % 4)) {
         alarm_toggle();
       }
     } else {
